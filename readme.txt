@@ -1,9 +1,9 @@
 === Midtrans-WooCommerce ===
-Contributors: yocki, rizdaprasetya
+Contributors: yocki, rizdaprasetya, lasida
 Tags: midtrans, snap, payment, payment-gateway, credit-card, commerce, e-commerce, woocommerce, veritrans
 Requires at least: 3.9.1
 Tested up to: 6.6.1
-Stable tag: 2.32.3
+Stable tag: 2.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,9 @@ The best way please email to support@midtrans.com, but bugs can be reported in o
 4. Configuration page
 
 == Changelog ==
+
+= 2.33 - 2025-03-28 =
+* Checkout Blocks support for Method Gopay & Shopeepay
 
 = 2.32.3 - 2024-08-15 =
 * add identifier to handle webhook, get transaction status, and refund using Dana
