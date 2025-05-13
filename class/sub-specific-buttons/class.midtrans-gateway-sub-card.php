@@ -1,5 +1,7 @@
 <?php
 if (! defined('ABSPATH')) { exit; }
+
+use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 /**
  * Class for each sub separated gateway buttons extending Abstract "Sub" class
  */
@@ -27,4 +29,53 @@ class WC_Gateway_Midtrans_Sub_Card extends WC_Gateway_Midtrans_Abstract_Sub {
   protected function getDefaultDescription () {
     return __('', 'midtrans-woocommerce');
   }
+}
+
+final class WC_Block_Midtrans_Sub_Card extends AbstractPaymentMethodType
+{
+    private $gateway;
+    protected $name = 'midtrans_sub_card';// your payment gateway name
+
+    public function initialize()
+    {
+        $this->settings = get_option('woocommerce_midtrans_sub_card_settings', []);
+        $this->gateway = new WC_Gateway_Midtrans_Sub_Card();
+    }
+
+    public function get_payment_method_script_handles()
+    {
+        wp_register_script(
+            'midtrans-sub-card',
+            MDTR_URL . 'assets/js/card.js',
+            [
+                    'wc-blocks-registry',
+                    'wc-settings',
+                    'wp-element',
+                    'wp-html-entities',
+                    'wp-i18n',
+                ],
+            MDTR_VERSION,
+            true
+        );
+
+        if (function_exists('wp_set_script_translations')) {
+            wp_set_script_translations('midtrans-sub-card');
+        }
+
+        return [ 'midtrans-sub-card' ];
+    }
+
+    public function is_active()
+    {
+        return $this->gateway->is_available();
+    }
+
+    public function get_payment_method_data()
+    {
+        return [
+            'title' => $this->gateway->title,
+            'description' => $this->gateway->description,
+            'icon'         => $this->gateway->icon,
+        ];
+    }
 }

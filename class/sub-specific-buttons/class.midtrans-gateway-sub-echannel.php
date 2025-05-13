@@ -1,10 +1,17 @@
 <?php
-if (! defined('ABSPATH')) { exit; }
+if (! defined('ABSPATH')) {
+  exit;
+}
+
+use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+
 /**
  * Class for each sub separated gateway buttons extending Abstract "Sub" class
  */
-class WC_Gateway_Midtrans_Sub_Echannel extends WC_Gateway_Midtrans_Abstract_Sub {
-  function __construct() {
+class WC_Gateway_Midtrans_Sub_Echannel extends WC_Gateway_Midtrans_Abstract_Sub
+{
+  function __construct()
+  {
     // used as plugin id
     $this->id = 'midtrans_sub_echannel';
     // used as Snap enabled_payments params.
@@ -15,16 +22,69 @@ class WC_Gateway_Midtrans_Sub_Echannel extends WC_Gateway_Midtrans_Abstract_Sub 
     parent::__construct();
   }
 
-  public function pluginTitle() {
+  public function pluginTitle()
+  {
     return "Midtrans Specific: Bank Transfer Mandiri Bill Payment";
   }
-  public function getSettingsDescription() {
+  public function getSettingsDescription()
+  {
     return "Separated payment buttons for this specific the payment methods with its own icons";
   }
-  protected function getDefaultTitle () {
+  protected function getDefaultTitle()
+  {
     return __('Bank Transfer - Mandiri Bill Payment', 'midtrans-woocommerce');
   }
-  protected function getDefaultDescription () {
+  protected function getDefaultDescription()
+  {
     return __('Only accept Bill Payment from Mandiri account.', 'midtrans-woocommerce');
+  }
+}
+
+final class WC_Block_Midtrans_Sub_Echannel extends AbstractPaymentMethodType
+{
+  private $gateway;
+  protected $name = 'midtrans_sub_echannel'; // your payment gateway name
+
+  public function initialize()
+  {
+    $this->settings = get_option('woocommerce_midtrans_sub_echannel_settings', []);
+    $this->gateway = new WC_Gateway_Midtrans_Sub_Echannel();
+  }
+
+  public function get_payment_method_script_handles()
+  {
+    wp_register_script(
+      'midtrans-sub-echannel',
+      MDTR_URL . 'assets/js/echannel.js',
+      [
+        'wc-blocks-registry',
+        'wc-settings',
+        'wp-element',
+        'wp-html-entities',
+        'wp-i18n',
+      ],
+      MDTR_VERSION,
+      true
+    );
+
+    if (function_exists('wp_set_script_translations')) {
+      wp_set_script_translations('midtrans-sub-echannel');
+    }
+
+    return ['midtrans-sub-echannel'];
+  }
+
+  public function is_active()
+  {
+    return $this->gateway->is_available();
+  }
+
+  public function get_payment_method_data()
+  {
+    return [
+      'title' => $this->gateway->title,
+      'description' => $this->gateway->description,
+      'icon'         => $this->gateway->icon,
+    ];
   }
 }

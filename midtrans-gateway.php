@@ -1,15 +1,15 @@
 <?php
 
 /*
-Plugin Name: Midtrans - WooCommerce Payment Gateway
+Plugin Name: Midtrans - WooCommerce Blocks
 Plugin URI: https://github.com/veritrans/SNAP-Woocommerce
 Description: Accept all payment directly on your WooCommerce site in a seamless and secure checkout environment with <a  target="_blank" href="https://midtrans.com/">Midtrans</a>
-Version: 2.33
+Version: 2.4.0
 Author: Midtrans
 Author URI: http://midtrans.co.id
 License: GPLv2 or later
 WC requires at least: 2.0.0
-WC tested up to: 9.1.2
+WC tested up to: 9.8.5
 */
 
 /*
@@ -129,6 +129,21 @@ add_action('woocommerce_blocks_loaded', function () {
         function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
             $payment_method_registry->register(new WC_Block_Midtrans_Sub_Gopay());
             $payment_method_registry->register(new WC_Block_Midtrans_Sub_Shopeepay());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Card());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_QRIS());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_BCA_VA());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_BNI_VA());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_BRI_VA());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Permata_VA());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Echannel());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Other_VA());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Akulaku());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_BCA_Klikpay());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_BRI_Epay());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_CIMB_Clicks());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Danamon_Online());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Alfamart());
+            $payment_method_registry->register(new WC_Block_Midtrans_Sub_Indomaret());
         }
     );
 });
