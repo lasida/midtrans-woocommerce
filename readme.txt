@@ -3,7 +3,7 @@ Contributors: yocki, rizdaprasetya, lasida
 Tags: midtrans, snap, payment, payment-gateway, credit-card, commerce, e-commerce, woocommerce, veritrans
 Requires at least: 5.0
 Tested up to: 6.8.1
-Stable tag: 2.4.0
+Stable tag: 2.34
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,7 @@ The best way please email to support@midtrans.com, but bugs can be reported in o
 
 == Changelog ==
 
-= 2.4 - 2025-04-12 =
+= 2.34 - 2025-05-13 =
 * Checkout Blocks support for All Method
 
 = 2.33 - 2025-03-28 =
