@@ -4,6 +4,7 @@ if (! defined('ABSPATH')) {
 }
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+
 /**
  * Class for each sub separated gateway buttons extending Abstract "Sub" class
  */
@@ -17,6 +18,8 @@ class WC_Gateway_Midtrans_Sub_CIMB_Clicks extends WC_Gateway_Midtrans_Abstract_S
     $this->sub_payment_method_params = ['cimb_clicks'];
     // used to display icons on customer side's payment buttons.
     $this->sub_payment_method_image_file_names_str_final = 'cimb_clicks.png';
+
+    $this->icon = !empty($this->get_option('icon')) ? $this->get_option('icon') : "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png";
 
     parent::__construct();
   }

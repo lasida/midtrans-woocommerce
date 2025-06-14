@@ -21,6 +21,8 @@ class WC_Gateway_Midtrans_Sub_Gopay extends WC_Gateway_Midtrans_Abstract_Sub
         // used to display icons on customer side's payment buttons.
         $this->sub_payment_method_image_file_names_str_final = 'qris.png,gopay.png';
 
+        $this->icon = !empty($this->get_option('icon')) ? $this->get_option('icon') : "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png";
+
         parent::__construct();
     }
 
@@ -45,7 +47,7 @@ class WC_Gateway_Midtrans_Sub_Gopay extends WC_Gateway_Midtrans_Abstract_Sub
 final class WC_Block_Midtrans_Sub_Gopay extends AbstractPaymentMethodType
 {
     private $gateway;
-    protected $name = 'midtrans_sub_gopay';// your payment gateway name
+    protected $name = 'midtrans_sub_gopay'; // your payment gateway name
 
     public function initialize()
     {
@@ -59,12 +61,12 @@ final class WC_Block_Midtrans_Sub_Gopay extends AbstractPaymentMethodType
             'midtrans-sub-gopay',
             MDTR_URL . 'assets/js/gopay.js',
             [
-                    'wc-blocks-registry',
-                    'wc-settings',
-                    'wp-element',
-                    'wp-html-entities',
-                    'wp-i18n',
-                ],
+                'wc-blocks-registry',
+                'wc-settings',
+                'wp-element',
+                'wp-html-entities',
+                'wp-i18n',
+            ],
             MDTR_VERSION,
             true
         );
@@ -73,7 +75,7 @@ final class WC_Block_Midtrans_Sub_Gopay extends AbstractPaymentMethodType
             wp_set_script_translations('midtrans-sub-gopay');
         }
 
-        return [ 'midtrans-sub-gopay' ];
+        return ['midtrans-sub-gopay'];
     }
 
     public function is_active()

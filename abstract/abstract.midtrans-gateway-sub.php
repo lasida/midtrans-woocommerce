@@ -71,6 +71,13 @@ abstract class WC_Gateway_Midtrans_Abstract_Sub extends WC_Gateway_Midtrans_Abst
           'default'       => $this->getDefaultTitle(),
         // 'desc_tip'      => true,
         ),
+        'icon' => array(
+          'title'       => __('Icon URL', 'midtrans-woocommerce'),
+          'type'        => 'text',
+          'description' => '',
+          'default'     => "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png",
+          'desc_tip'    => true,
+        ),
         'description'               => array(
           'title' => __( 'Payment Description', 'midtrans-woocommerce' ),
           'type' => 'textarea',

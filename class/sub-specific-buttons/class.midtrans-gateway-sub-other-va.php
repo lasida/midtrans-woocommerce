@@ -19,6 +19,8 @@ class WC_Gateway_Midtrans_Sub_Other_VA extends WC_Gateway_Midtrans_Abstract_Sub
     // used to display icons on customer side's payment buttons.
     $this->sub_payment_method_image_file_names_str_final = 'other_va_3.png,other_va_2.png,other_va_1.png';
 
+    $this->icon = !empty($this->get_option('icon')) ? $this->get_option('icon') : "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png";
+
     parent::__construct();
   }
 

@@ -1,12 +1,17 @@
 <?php
-if (! defined('ABSPATH')) { exit; }
+if (! defined('ABSPATH')) {
+  exit;
+}
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+
 /**
  * Class for each sub separated gateway buttons extending Abstract "Sub" class
  */
-class WC_Gateway_Midtrans_Sub_Card extends WC_Gateway_Midtrans_Abstract_Sub {
-  function __construct() {
+class WC_Gateway_Midtrans_Sub_Card extends WC_Gateway_Midtrans_Abstract_Sub
+{
+  function __construct()
+  {
     // used as plugin id
     $this->id = 'midtrans_sub_card';
     // used as Snap enabled_payments params.
@@ -14,68 +19,74 @@ class WC_Gateway_Midtrans_Sub_Card extends WC_Gateway_Midtrans_Abstract_Sub {
     // used to display icons on customer side's payment buttons.
     $this->sub_payment_method_image_file_names_str_final = 'cc_amex.png,cc_jcb.png,cc_master.png,cc_visa.png';
 
+    $this->icon = !empty($this->get_option('icon')) ? $this->get_option('icon') : "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png";
+
     parent::__construct();
   }
 
-  public function pluginTitle() {
+  public function pluginTitle()
+  {
     return "Midtrans Specific: Card Payment";
   }
-  public function getSettingsDescription() {
+  public function getSettingsDescription()
+  {
     return "Separated payment buttons for this specific the payment methods with its own icons";
   }
-  protected function getDefaultTitle () {
+  protected function getDefaultTitle()
+  {
     return __('Credit/Debit Card', 'midtrans-woocommerce');
   }
-  protected function getDefaultDescription () {
+  protected function getDefaultDescription()
+  {
     return __('', 'midtrans-woocommerce');
   }
 }
 
 final class WC_Block_Midtrans_Sub_Card extends AbstractPaymentMethodType
 {
-    private $gateway;
-    protected $name = 'midtrans_sub_card';// your payment gateway name
+  private $gateway;
+  protected $name = 'midtrans_sub_card'; // your payment gateway name
 
-    public function initialize()
-    {
-        $this->settings = get_option('woocommerce_midtrans_sub_card_settings', []);
-        $this->gateway = new WC_Gateway_Midtrans_Sub_Card();
+  public function initialize()
+  {
+    $this->settings = get_option('woocommerce_midtrans_sub_card_settings', []);
+    $this->gateway = new WC_Gateway_Midtrans_Sub_Card();
+  }
+
+  public function get_payment_method_script_handles()
+  {
+    wp_register_script(
+      'midtrans-sub-card',
+      MDTR_URL . 'assets/js/card.js',
+      [
+        'wc-blocks-registry',
+        'wc-settings',
+        'wp-element',
+        'wp-html-entities',
+        'wp-i18n',
+      ],
+      MDTR_VERSION,
+      true
+    );
+
+    if (function_exists('wp_set_script_translations')) {
+      wp_set_script_translations('midtrans-sub-card');
     }
 
-    public function get_payment_method_script_handles()
-    {
-        wp_register_script(
-            'midtrans-sub-card',
-            MDTR_URL . 'assets/js/card.js',
-            [
-                    'wc-blocks-registry',
-                    'wc-settings',
-                    'wp-element',
-                    'wp-html-entities',
-                    'wp-i18n',
-                ],
-            MDTR_VERSION,
-            true
-        );
+    return ['midtrans-sub-card'];
+  }
 
-        if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('midtrans-sub-card');
-        }
+  public function is_active()
+  {
+    return $this->gateway->is_available();
+  }
 
-        return [ 'midtrans-sub-card' ];
-    }
-
-    public function is_active()
-    {
-        return $this->gateway->is_available();
-    }
-
-    public function get_payment_method_data()
-    {
-        return [
-            'title' => $this->gateway->title,
-            'description' => $this->gateway->description,
-            'icon'         => $this->gateway->icon,
-        ];
-    }
+  public function get_payment_method_data()
+  {
+    return [
+      'title' => $this->gateway->title,
+      'description' => $this->gateway->description,
+      'icon'         => $this->gateway->icon,
+    ];
+  }
 }

@@ -4,6 +4,7 @@ if (! defined('ABSPATH')) {
 }
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+
 /**
  * Class for each sub separated gateway buttons extending Abstract "Sub" class
  */
@@ -17,6 +18,8 @@ class WC_Gateway_Midtrans_Sub_BCA_VA extends WC_Gateway_Midtrans_Abstract_Sub
     $this->sub_payment_method_params = ['bca_va'];
     // used to display icons on customer side's payment buttons.
     $this->sub_payment_method_image_file_names_str_final = 'bca_va.png';
+
+    $this->icon = !empty($this->get_option('icon')) ? $this->get_option('icon') : "https://img.lokuswp.id/2024/08/new-lokuswp-logo.png";
 
     parent::__construct();
   }
